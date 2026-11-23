@@ -1,0 +1,13 @@
+; The memory image reads its bytes from the .hex files at compile time
+; (rocq-read-file). dune copies a source file into the build tree only when a
+; rule asks for it, so this generated, empty member of the theory depends on
+; them. The same device as Theorem's own examples use.
+(rule
+ (target HexDeps.v)
+ (deps (glob_files *.hex))
+ (action (with-stdout-to HexDeps.v (echo "(* Generated: see the dune file. *)\n"))))
+
+(rocq.theory
+ (name XrplVerify)
+ (theories Stdlib stdpp ReadFile Flocq LinuxProcessSemantics LinuxProcessSemantics.Common)
+ (flags :standard -w -notation-incompatible-prefix -w -abstract-large-number))
